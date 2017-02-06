@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Buzz</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="saveLogin">Save</string>
+    <string name="cancelLogin">Don\'t Save</string>
+    <string name="prefLogin">LOGIN_INFO</string>
+    <string name="settingLogin">GT Login</string>
+    <string name="settingLoginSummary">Edit your stored login information</string>
+    <string name="action_settings">Settings</string>
+    <string-array name="drawerList">
+        <item>Buzzport</item>
+        <item>TSquare</item>
+    </string-array>
+</resources>

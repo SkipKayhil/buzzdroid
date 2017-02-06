@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <io.github.skipkayhil.buzz.LoginDialogPreference
+        android:key="@string/prefLogin"
+        android:title="@string/settingLogin"
+        android:summary="@string/settingLoginSummary"
+        android:dialogLayout="@layout/dialog_login"
+        android:positiveButtonText="Edit"
+        android:negativeButtonText="Cancel"
+        >
+
+    </io.github.skipkayhil.buzz.LoginDialogPreference>
+</PreferenceScreen>
