@@ -1,15 +1,10 @@
 package io.github.skipkayhil.buzz;
 
 import android.content.SharedPreferences;
-import android.preference.DialogPreference;
+import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
@@ -48,7 +43,7 @@ public class BuzzportView extends Fragment {
             @Override
             public void onPageFinished(WebView view, String url) {
                 // TODO: If username/password aren't in storage, then show the login dialog
-                if (username == "" || password == "") {
+                if (username.equals("") || password.equals("")) {
                     DialogFragment loginDiag = new LoginDialog();
                     loginDiag.show(getActivity().getSupportFragmentManager(), "login");
                 } else {
