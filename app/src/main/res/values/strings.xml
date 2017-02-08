@@ -8,6 +8,8 @@
     <string name="settingLogin">GT Login</string>
     <string name="settingLoginSummary">Edit your stored login information</string>
     <string name="action_settings">Settings</string>
+    <string name="drawer_open">Drawer Open</string>
+    <string name="drawer_close">Drawer Close</string>
     <string-array name="drawerList">
         <item>Buzzport</item>
         <item>TSquare</item>
