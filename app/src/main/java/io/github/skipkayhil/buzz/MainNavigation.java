@@ -16,11 +16,11 @@ import android.widget.ListView;
 
 public class MainNavigation extends AppCompatActivity {
 
-    private String[] listItems;
+    // private String[] listItems;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private NavigationView navigationView;
-    private CharSequence title;
+    private CharSequence title = "Buzz";
 
 
     @Override
@@ -31,7 +31,7 @@ public class MainNavigation extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        listItems = getResources().getStringArray(R.array.drawerList);
+        // listItems = getResources().getStringArray(R.array.drawerList);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         navigationView = (NavigationView) findViewById(R.id.navDrawer);
 

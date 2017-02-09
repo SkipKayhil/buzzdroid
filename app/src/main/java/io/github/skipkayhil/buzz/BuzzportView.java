@@ -1,5 +1,6 @@
 package io.github.skipkayhil.buzz;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -17,6 +18,7 @@ public class BuzzportView extends Fragment {
     private String password = "testpassword";
 
     @Override
+    @SuppressLint("SetJavaScriptEnabled")
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View inflatedView = inflater.inflate(R.layout.activity_buzzport_view, container, false);
