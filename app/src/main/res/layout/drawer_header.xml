@@ -28,7 +28,7 @@
             android:layout_weight="1"
             android:textSize="14sp"
             android:id="@+id/drawerUsername"
-            android:text="heyfromjonathan@gmail.com"/>
+            />
 
         <ImageButton
             android:layout_width="16dp"

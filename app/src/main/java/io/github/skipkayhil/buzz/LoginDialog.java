@@ -16,15 +16,26 @@ public class LoginDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        // LayoutInflater inflater = getActivity().getLayoutInflater();
         final View view = View.inflate(getActivity(), R.layout.dialog_login, null);
 
+        String username = "";
+        String password = "";
+        String title = "";
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            username = bundle.getString("username", "");
+            password = bundle.getString("password", "");
+        }
+
+        if (!username.equals("") && !password.equals("")) {
+            ((EditText) view.findViewById(R.id.usernameInput)).setText(username);
+            ((EditText) view.findViewById(R.id.passwordInput)).setText(password);
+        }
 
         builder.setTitle("Save GT Login Info?")
                 .setView(view)
-                .setPositiveButton(R.string.saveLogin, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                .setPositiveButton(R.string.saveLogin, (DialogInterface dialog, int which) -> {
                         EditText usernameInput = (EditText) view.findViewById(R.id.usernameInput);
                         EditText passwordInput = (EditText) view.findViewById(R.id.passwordInput);
 
@@ -34,16 +45,9 @@ public class LoginDialog extends DialogFragment {
                                 .putString("username", usernameInput.getText().toString())
                                 .putString("password", passwordInput.getText().toString())
                                 .apply();
-                        getActivity().finish();
-                        getActivity().startActivity(getActivity().getIntent());
-                    }
+                        ((MainNavigation) getActivity()).refreshView();
                 })
-                .setNegativeButton(R.string.cancelLogin, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
+                .setNegativeButton(R.string.cancelLogin, (DialogInterface dialog, int which) -> {});
         return builder.create();
     }
 }

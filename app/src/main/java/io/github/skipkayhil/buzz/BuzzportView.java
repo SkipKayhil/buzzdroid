@@ -1,9 +1,7 @@
 package io.github.skipkayhil.buzz;
 
 import android.annotation.SuppressLint;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,36 +21,45 @@ public class BuzzportView extends Fragment {
                              Bundle savedInstanceState) {
         View inflatedView = inflater.inflate(R.layout.activity_buzzport_view, container, false);
 
-        /*
-         * Grab the saved username and password if they exist
-         */
-        SharedPreferences storage = getActivity().getSharedPreferences("LOGIN_INFO", 0);
-        username = storage.getString("username", "");
-        password = storage.getString("password", "");
+        username = getArguments().getString("username", "");
+        password = getArguments().getString("password", "");
 
         WebView webView = (WebView) inflatedView.findViewById(R.id.webview);
         webView.setWebViewClient(new WebViewClient() {
-            /*
-             * Override this method that blocks urls from redirecting
-             */
+            // Override this method that blocks urls from redirecting
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 return false;
             }
-            /*
-             * Use javascript to fill in the username and password, then click the login button
-             */
+
             @Override
-            public void onPageFinished(WebView view, String url) {
-                // TODO: If username/password aren't in storage, then show the login dialog
-                if (username.equals("") || password.equals("")) {
-                    DialogFragment loginDiag = new LoginDialog();
-                    loginDiag.show(getActivity().getSupportFragmentManager(), "login");
+            public void onPageFinished(final WebView view, String url) {
+                final String LOGIN_URL = "login.gatech.edu";
+
+                // Check if the view is on the login page
+                if (url.contains (LOGIN_URL)) {
+                    // Check if a username/password have been saved
+                    if (username.equals("") || password.equals("")) {
+                        // If not saved, then show the login dialog
+                        new LoginDialog().show(getActivity().getSupportFragmentManager(), "login");
+                    } else {
+                        // If saved, check to see if the page contains the error message
+                        view.evaluateJavascript("document.getElementById('msg')", (String s) -> {
+                            String script = String.format(
+                                    "document.getElementById('username').value='%s';"
+                                            + "document.getElementById('password').value='%s';",
+                                    username,
+                                    password);
+
+                            script = s.equals("null")
+                                    ? script + "document.getElementById('fm1').submit.click()"
+                                    : script;
+                            view.evaluateJavascript(script, null);
+                        });
+                    }
                 } else {
-                    view.evaluateJavascript("document.getElementById(\"username\").value=\""
-                            + username + "\";", null);
-                    view.evaluateJavascript("document.getElementById(\"password\").value=\""
-                            + password + "\";", null);
+                    view.getSettings().setLoadWithOverviewMode(true);
+                    view.getSettings().setUseWideViewPort(true);
                 }
             }
         });
@@ -60,9 +67,7 @@ public class BuzzportView extends Fragment {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-        /*
-         * Load the Buzzport website after the WebView settings
-         */
+        // Load the Buzzport website after the WebView settings
         webView.loadUrl("https://buzzport.gatech.edu/misc/preauth.html");
 
         return inflatedView;
