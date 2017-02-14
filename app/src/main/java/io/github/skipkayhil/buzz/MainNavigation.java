@@ -2,6 +2,7 @@ package io.github.skipkayhil.buzz;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -20,16 +21,15 @@ import android.widget.TextView;
 public class MainNavigation extends AppCompatActivity {
 
     private enum ViewType {
-        BUZZPORT
+        TSQUARE, BUSES, PLACES, SITES
     }
 
-    private ViewType currentView = ViewType.BUZZPORT;
+    private ViewType currentView = ViewType.TSQUARE;
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private Toolbar toolbar;
     private NavigationView navigationView;
-    private CharSequence title = "Buzz";
 
     private String username;
     private String password;
@@ -48,8 +48,13 @@ public class MainNavigation extends AppCompatActivity {
 
         Fragment newView;
         switch(currentView) {
-            case BUZZPORT:
+            case TSQUARE:
+                newView = new TsquareView();
+                toolbar.setTitle("T-Square");
+                break;
+            case SITES:
                 newView = new BuzzportView();
+                toolbar.setTitle("Buzzport");
                 break;
             default:
                 newView = new BuzzportView();
@@ -100,14 +105,14 @@ public class MainNavigation extends AppCompatActivity {
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                toolbar.setTitle(title);
+                //toolbar.setTitle(title);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                toolbar.setTitle(title);
+                //toolbar.setTitle(title);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
@@ -115,6 +120,22 @@ public class MainNavigation extends AppCompatActivity {
 
         navigationView.getHeaderView(0).findViewById(R.id.drawerEditLogin)
                 .setOnClickListener((v) -> showLoginDialog());
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch(item.getItemId()) {
+                    case R.id.navTsquare:
+                        currentView = ViewType.TSQUARE;
+                        break;
+                    case R.id.navSites:
+                        currentView = ViewType.SITES;
+                        break;
+                }
+                refreshView();
+                drawerLayout.closeDrawers();
+                return true;
+            }
+        });
 
         // drawerList.setAdapter(new ArrayAdapter<String>(this,
         //        R.layout.drawer_list_item, listItems));

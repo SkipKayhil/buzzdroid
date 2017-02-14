@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 
 public class LoginDialog extends DialogFragment {
@@ -18,15 +19,9 @@ public class LoginDialog extends DialogFragment {
 
         final View view = View.inflate(getActivity(), R.layout.dialog_login, null);
 
-        String username = "";
-        String password = "";
         String title = "";
-
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            username = bundle.getString("username", "");
-            password = bundle.getString("password", "");
-        }
+        String username = getArguments().getString("username", "");
+        String password = getArguments().getString("password", "");
 
         if (!username.equals("") && !password.equals("")) {
             ((EditText) view.findViewById(R.id.usernameInput)).setText(username);
@@ -49,5 +44,12 @@ public class LoginDialog extends DialogFragment {
                 })
                 .setNegativeButton(R.string.cancelLogin, (DialogInterface dialog, int which) -> {});
         return builder.create();
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        getDialog().getWindow()
+                .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        super.onActivityCreated(savedInstanceState);
     }
 }

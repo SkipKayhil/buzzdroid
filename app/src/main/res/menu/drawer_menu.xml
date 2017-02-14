@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navTsquare"
+            android:title="T-Square"/>
+        <item
+            android:title="Buses"/>
+        <item
+            android:title="Places"/>
+        <item
+            android:id="@+id/navSites"
+            android:title="Sites"/>
+    </group>
+</menu>
