@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="Subheader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:paddingStart="16dp"
+        android:paddingTop="17dp"
+        android:paddingBottom="17dp"
+        android:id="@+id/sitesSubheader"
+        android:fontFamily="sans-serif-medium" />
+</FrameLayout>

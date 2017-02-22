@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 
+import io.github.skipkayhil.buzz.activities.MainActivity;
+
 public class LoginDialog extends DialogFragment {
     @Override
     @NonNull
@@ -40,7 +42,7 @@ public class LoginDialog extends DialogFragment {
                                 .putString("username", usernameInput.getText().toString())
                                 .putString("password", passwordInput.getText().toString())
                                 .apply();
-                        ((MainNavigation) getActivity()).refreshView();
+                        ((MainActivity) getActivity()).refreshView();
                 })
                 .setNegativeButton(R.string.cancelLogin, (DialogInterface dialog, int which) -> {});
         return builder.create();

@@ -1,4 +1,4 @@
-package io.github.skipkayhil.buzz;
+package io.github.skipkayhil.buzz.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -6,9 +6,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import io.github.skipkayhil.buzz.LoginDialog;
+import io.github.skipkayhil.buzz.R;
 
 public class BuzzportView extends Fragment {
 
@@ -19,7 +23,7 @@ public class BuzzportView extends Fragment {
     @SuppressLint("SetJavaScriptEnabled")
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View inflatedView = inflater.inflate(R.layout.activity_buzzport_view, container, false);
+        View inflatedView = inflater.inflate(R.layout.fragment_buzzport_view, container, false);
 
         username = getArguments().getString("username", "");
         password = getArguments().getString("password", "");
@@ -28,7 +32,7 @@ public class BuzzportView extends Fragment {
         webView.setWebViewClient(new WebViewClient() {
             // Override this method that blocks urls from redirecting
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 return false;
             }
 

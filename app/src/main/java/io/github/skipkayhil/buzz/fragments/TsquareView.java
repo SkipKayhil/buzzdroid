@@ -1,4 +1,4 @@
-package io.github.skipkayhil.buzz;
+package io.github.skipkayhil.buzz.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -10,6 +10,9 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import io.github.skipkayhil.buzz.LoginDialog;
+import io.github.skipkayhil.buzz.R;
+
 public class TsquareView extends Fragment {
 
     private String username = "testusername";
@@ -19,7 +22,7 @@ public class TsquareView extends Fragment {
     @SuppressLint("SetJavaScriptEnabled")
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View inflatedView = inflater.inflate(R.layout.activity_buzzport_view, container, false);
+        View inflatedView = inflater.inflate(R.layout.fragment_buzzport_view, container, false);
 
         username = getArguments().getString("username", "");
         password = getArguments().getString("password", "");
