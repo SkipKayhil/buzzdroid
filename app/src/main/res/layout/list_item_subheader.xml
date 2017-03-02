@@ -1,16 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_centerVertical="true"
+        android:id="@+id/siteCategoryIcon"/>
 
     <TextView
-        android:text="Subheader"
+        android:id="@+id/siteCategoryName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:paddingStart="16dp"
-        android:paddingTop="17dp"
-        android:paddingBottom="17dp"
-        android:id="@+id/sitesSubheader"
-        android:fontFamily="sans-serif-medium" />
-</FrameLayout>
+        android:fontFamily="sans-serif"
+        android:text="Category Name"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:layout_marginStart="30dp"
+        android:layout_toEndOf="@id/siteCategoryIcon"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:id="@+id/siteCategoryDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="16dp"
+        android:layout_below="@id/siteCategoryName"
+        android:layout_toEndOf="@id/siteCategoryIcon"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="sans-serif"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="Description"
+        android:textSize="14sp" />
+</RelativeLayout>

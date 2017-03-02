@@ -5,21 +5,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
-public class SitesAdapter extends BaseAdapter {
+import io.github.skipkayhil.buzz.fragments.SiteCategoryView;
 
-    private enum type {
-        ITEM, SEPARATOR
-    }
+public class SiteCategoryAdapter extends BaseAdapter {
 
-    //private Context context;
     private LayoutInflater inflater;
-    private List<Site> listItems;
+    private List<SiteCategoryView.SiteCategory> listItems;
 
-    public SitesAdapter(Context context, List<Site> listItems) {
+    public SiteCategoryAdapter(Context context, List<SiteCategoryView.SiteCategory> listItems) {
         // this.context = context;
         this.listItems = listItems;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -31,7 +29,7 @@ public class SitesAdapter extends BaseAdapter {
     }
 
     @Override
-    public Site getItem(int position) {
+    public SiteCategoryView.SiteCategory getItem(int position) {
         return listItems.get(position);
     }
 
@@ -46,25 +44,29 @@ public class SitesAdapter extends BaseAdapter {
         ViewHolder holder;
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.list_item_site, parent, false);
+            convertView = inflater.inflate(R.layout.list_item_subheader, parent, false);
             holder = new ViewHolder();
-            holder.name = (TextView) convertView.findViewById(R.id.sitesName);
-            holder.url = (TextView) convertView.findViewById(R.id.sitesURL);
+            holder.name = (TextView) convertView.findViewById(R.id.siteCategoryName);
+            holder.description = (TextView) convertView.findViewById(R.id.siteCategoryDescription);
+            holder.icon = (ImageView) convertView.findViewById(R.id.siteCategoryIcon);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Site site = getItem(position);
+        SiteCategoryView.SiteCategory category = getItem(position);
 
-        holder.name.setText(site.getName());
-        holder.url.setText(site.getDefaultUrl());
+        holder.name.setText(category.name);
+        holder.description.setText(category.description);
+        holder.icon.setImageResource(category.icon);
+        holder.icon.setImageAlpha(138);
 
         return convertView;
     }
 
     private static class ViewHolder {
+        private ImageView icon;
         private TextView name;
-        private TextView url;
+        private TextView description;
     }
 }

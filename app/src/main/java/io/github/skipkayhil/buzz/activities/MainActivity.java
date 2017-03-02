@@ -17,7 +17,7 @@ import io.github.skipkayhil.buzz.fragments.BusesView;
 import io.github.skipkayhil.buzz.fragments.BuzzportView;
 import io.github.skipkayhil.buzz.LoginDialog;
 import io.github.skipkayhil.buzz.R;
-import io.github.skipkayhil.buzz.fragments.SitesView;
+import io.github.skipkayhil.buzz.fragments.SiteCategoryView;
 import io.github.skipkayhil.buzz.fragments.TsquareView;
 
 public class MainActivity extends AppCompatActivity {
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 toolbar.setTitle("T-Square");
                 break;
             case SITES:
-                newView = new SitesView();
+                newView = new SiteCategoryView();
                 toolbar.setTitle("Sites");
                 break;
             case BUSES:
@@ -175,7 +175,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
-        if (drawerToggle.onOptionsItemSelected(item)) {
+        if (getSupportFragmentManager().findFragmentById(R.id.fragment_container)
+                instanceof SiteListView) {
+            onBackPressed();
+            getSupportFragmentManager().popBackStack();
+            return true;
+        } else if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
         // Handle your other action bar items
@@ -215,4 +220,12 @@ public class MainActivity extends AppCompatActivity {
 //        this.title = title;
 //        getActionBar().setTitle(this.title);
 //    }
+    @Override
+    public void onBackPressed() {
+        if(getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof SiteListView) {
+            toolbar.setTitle("Sites");
+            toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
+        }
+        super.onBackPressed();
+    }
 }
