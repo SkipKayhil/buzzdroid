@@ -85,9 +85,9 @@ public class MainActivity extends AppCompatActivity {
         bundle.putString("username", username);
         bundle.putString("password", password);
 
-        DialogFragment loginDiag = new LoginDialog();
-        loginDiag.setArguments(bundle);
-        loginDiag.show(getSupportFragmentManager(), "login");
+        DialogFragment loginDialog = new LoginDialog();
+        loginDialog.setArguments(bundle);
+        loginDialog.show(getSupportFragmentManager(), "login");
     }
 
     @Override
