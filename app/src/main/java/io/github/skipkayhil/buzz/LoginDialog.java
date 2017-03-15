@@ -22,8 +22,13 @@ public class LoginDialog extends DialogFragment {
         final View view = View.inflate(getActivity(), R.layout.dialog_login, null);
 
         String title = "";
-        String username = getArguments().getString("username", "");
-        String password = getArguments().getString("password", "");
+        String username = "";
+        String password = "";
+
+        if (getArguments() != null) {
+            username = getArguments().getString("username", "");
+            password = getArguments().getString("password", "");
+        }
 
         if (!username.equals("") && !password.equals("")) {
             ((EditText) view.findViewById(R.id.usernameInput)).setText(username);

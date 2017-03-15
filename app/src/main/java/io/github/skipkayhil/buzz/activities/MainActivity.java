@@ -77,8 +77,12 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, newView, "currentView").commit();
 
+        String navUsername = username;
+        if (navUsername.equals("")) {
+            navUsername = "Account not saved";
+        }
         ((TextView) navigationView.getHeaderView(0).findViewById(R.id.drawerUsername))
-                .setText(username);
+                .setText(navUsername);
     }
 
     public void showLoginDialog() {
