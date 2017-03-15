@@ -14,10 +14,11 @@ import android.webkit.WebViewClient;
 import io.github.skipkayhil.buzz.LoginDialog;
 import io.github.skipkayhil.buzz.R;
 
-public class BuzzportView extends Fragment {
+public class BuzzWebView extends Fragment {
 
     private String username = "testusername";
     private String password = "testpassword";
+    private String url;
 
     @Override
     @SuppressLint("SetJavaScriptEnabled")
@@ -27,6 +28,7 @@ public class BuzzportView extends Fragment {
 
         username = getArguments().getString("username", "");
         password = getArguments().getString("password", "");
+        url = getArguments().getString("url", "http://gatech.edu");
 
         WebView webView = (WebView) inflatedView.findViewById(R.id.webview);
         webView.setWebViewClient(new WebViewClient() {
@@ -72,7 +74,7 @@ public class BuzzportView extends Fragment {
         webSettings.setJavaScriptEnabled(true);
 
         // Load the Buzzport website after the WebView settings
-        webView.loadUrl("https://buzzport.gatech.edu/misc/preauth.html");
+        webView.loadUrl(url);
 
         return inflatedView;
     }

@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import io.github.skipkayhil.buzz.activities.SiteListView;
+import io.github.skipkayhil.buzz.fragments.SiteListView;
 
 public class SiteAdapter extends BaseAdapter {
 

@@ -1,6 +1,5 @@
 package io.github.skipkayhil.buzz.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import java.util.List;
 
 import io.github.skipkayhil.buzz.R;
 import io.github.skipkayhil.buzz.SiteCategoryAdapter;
-import io.github.skipkayhil.buzz.activities.SiteListView;
 
 public class SiteCategoryView extends Fragment {
 
@@ -69,12 +67,15 @@ public class SiteCategoryView extends Fragment {
 //            Intent intent = new Intent(getActivity(), SiteListView.class);
 
             Bundle bundle = new Bundle();
+            bundle.putString("username", getArguments().getString("username", ""));
+            bundle.putString("password", getArguments().getString("password", ""));
             bundle.putInt("position", position);
 
             Fragment fragment = new SiteListView();
             fragment.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+                    .replace(R.id.fragment_container, fragment, "currentView")
+                    .addToBackStack(null).commit();
 
         });
 

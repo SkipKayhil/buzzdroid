@@ -14,10 +14,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import io.github.skipkayhil.buzz.fragments.BusesView;
-import io.github.skipkayhil.buzz.fragments.BuzzportView;
+import io.github.skipkayhil.buzz.fragments.BuzzWebView;
 import io.github.skipkayhil.buzz.LoginDialog;
 import io.github.skipkayhil.buzz.R;
 import io.github.skipkayhil.buzz.fragments.SiteCategoryView;
+import io.github.skipkayhil.buzz.fragments.SiteListView;
 import io.github.skipkayhil.buzz.fragments.TsquareView;
 
 public class MainActivity extends AppCompatActivity {
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 toolbar.setTitle("Places");
                 break;
             default:
-                newView = new BuzzportView();
+                newView = new TsquareView();
         }
         newView.setArguments(bundle);
 
@@ -170,20 +171,26 @@ public class MainActivity extends AppCompatActivity {
 //        return super.onPrepareOptionsMenu(menu);
 //   }
 
-    // Handles the touch event to open the Navigation bar
+    // Handles the Action Bar's Left Icon press
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
         if (getSupportFragmentManager().findFragmentById(R.id.fragment_container)
-                instanceof SiteListView) {
+                instanceof SiteListView
+            || getSupportFragmentManager().findFragmentById(R.id.fragment_container)
+                instanceof BuzzWebView) {
             onBackPressed();
-            getSupportFragmentManager().popBackStack();
+
+            // I'm commenting this line because I'm pretty sure
+            // onBackPressed() calls this already
+            //
+            // getSupportFragmentManager().popBackStack();
             return true;
         } else if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-        // Handle your other action bar items
+        // Handle any other action
 
         return super.onOptionsItemSelected(item);
     }
@@ -198,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
     /** Swaps fragments in the main content view */
 //    private void selectItem(int position) {
 //        // Create a new fragment and specify the planet to show based on position
-//        Fragment fragment = new BuzzportView();
+//        Fragment fragment = new BuzzWebView();
 //        //Bundle args = new Bundle();
 //        //args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
 //        //fragment.setArguments(args);
