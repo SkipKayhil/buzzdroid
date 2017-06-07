@@ -14,11 +14,12 @@ import android.webkit.WebViewClient;
 
 import io.github.skipkayhil.buzz.LoginDialog;
 import io.github.skipkayhil.buzz.R;
+import io.github.skipkayhil.buzz.model.User;
 
 public class BuzzWebView extends Fragment {
 
-    private String username = "testusername";
-    private String password = "testpassword";
+    private String username = User.getInstance().getUsername();
+    private String password = User.getInstance().getPassword();
     private String url;
 
     @Override
@@ -27,8 +28,6 @@ public class BuzzWebView extends Fragment {
                              Bundle savedInstanceState) {
         View inflatedView = inflater.inflate(R.layout.fragment_buzzport_view, container, false);
 
-        username = getArguments().getString("username", "");
-        password = getArguments().getString("password", "");
         url = getArguments().getString("url", "http://gatech.edu");
 
         WebView webView = (WebView) inflatedView.findViewById(R.id.webview);

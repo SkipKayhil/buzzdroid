@@ -21,6 +21,7 @@ import io.github.skipkayhil.buzz.R;
 import io.github.skipkayhil.buzz.fragments.SiteCategoryView;
 import io.github.skipkayhil.buzz.fragments.SiteListView;
 import io.github.skipkayhil.buzz.fragments.TsquareView;
+import io.github.skipkayhil.buzz.model.User;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,8 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private NavigationView navigationView;
 
-    private String username;
-    private String password;
+    private User user = User.getInstance();
 
     public void refreshView() {
 
@@ -45,12 +45,8 @@ public class MainActivity extends AppCompatActivity {
          * Grab the saved username and password if they exist
          */
         SharedPreferences storage = getSharedPreferences("LOGIN_INFO", 0);
-        username = storage.getString("username", "");
-        password = storage.getString("password", "");
-
-        Bundle bundle = new Bundle();
-        bundle.putString("username", username);
-        bundle.putString("password", password);
+        user.setUsername(storage.getString("username", ""));
+        user.setPassword(storage.getString("password", ""));
 
         Fragment newView = new TsquareView();
         switch(currentView) {
@@ -71,27 +67,17 @@ public class MainActivity extends AppCompatActivity {
                 toolbar.setTitle("Places");
                 break;
         }
-        newView.setArguments(bundle);
+        //newView.setArguments(bundle);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, newView, "currentView").commit();
 
-        String navUsername = username;
+        String navUsername = user.getUsername();
         if (navUsername.equals("")) {
             navUsername = "Account not saved";
         }
         ((TextView) navigationView.getHeaderView(0).findViewById(R.id.drawerUsername))
                 .setText(navUsername);
-    }
-
-    public void showLoginDialog() {
-        Bundle bundle = new Bundle();
-        bundle.putString("username", username);
-        bundle.putString("password", password);
-
-        DialogFragment loginDialog = new LoginDialog();
-        loginDialog.setArguments(bundle);
-        loginDialog.show(getSupportFragmentManager(), "login");
     }
 
     @Override
@@ -138,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        showLoginDialog();
+                        new LoginDialog().show(getSupportFragmentManager(), "login");
                     }
                 });
 

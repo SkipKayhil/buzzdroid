@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 
 import io.github.skipkayhil.buzz.activities.MainActivity;
+import io.github.skipkayhil.buzz.model.User;
 
 public class LoginDialog extends DialogFragment {
     @Override
@@ -22,13 +23,8 @@ public class LoginDialog extends DialogFragment {
         final View view = View.inflate(getActivity(), R.layout.dialog_login, null);
 
         String title = "";
-        String username = "";
-        String password = "";
-
-        if (getArguments() != null) {
-            username = getArguments().getString("username", "");
-            password = getArguments().getString("password", "");
-        }
+        final String username = User.getInstance().getUsername();
+        final String password = User.getInstance().getPassword();
 
         if (!username.equals("") && !password.equals("")) {
             ((EditText) view.findViewById(R.id.usernameInput)).setText(username);
@@ -43,11 +39,18 @@ public class LoginDialog extends DialogFragment {
                         EditText usernameInput = (EditText) view.findViewById(R.id.usernameInput);
                         EditText passwordInput = (EditText) view.findViewById(R.id.passwordInput);
 
+                        String newUsername = usernameInput.getText().toString();
+                        String newPassword = passwordInput.getText().toString();
+
+                        // eventually update the shared prefs in User?
+                        User.getInstance().setUsername(newUsername);
+                        User.getInstance().setPassword(newPassword);
+
                         SharedPreferences storage = LoginDialog.this.getActivity()
                                 .getSharedPreferences("LOGIN_INFO", 0);
                         storage.edit()
-                                .putString("username", usernameInput.getText().toString())
-                                .putString("password", passwordInput.getText().toString())
+                                .putString("username", newUsername)
+                                .putString("password", newPassword)
                                 .apply();
                         ((MainActivity) LoginDialog.this.getActivity()).refreshView();
                     }

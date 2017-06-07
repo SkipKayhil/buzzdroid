@@ -38,17 +38,15 @@ public class SiteCategoryView extends Fragment {
             new SiteCategory("Services", "Detailed information about campus services", R.drawable.ic_local_hospital_black_24dp)
     );
 
-    private String[] sections = {
-            "Account",
-            "Campus",
-            "Colleges",
-            "Community",
-            "Prospective Students",
-            "Schools",
-            "Services"
-    };
-
-    ;
+//    private String[] sections = {
+//            "Account",
+//            "Campus",
+//            "Colleges",
+//            "Community",
+//            "Prospective Students",
+//            "Schools",
+//            "Services"
+//    };
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -58,20 +56,12 @@ public class SiteCategoryView extends Fragment {
 
         SiteCategoryAdapter adapter = new SiteCategoryAdapter(getActivity(), categoryList);
 
-//        adapter.addSection("Account", new SiteAdapter(getActivity(), accountSites));
-//        adapter.addSection("Campus", new SiteAdapter(getActivity(), campusSites));
-
-        // ArrayAdapter<Site> contentsAdapter = );
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//            Intent intent = new Intent(getActivity(), SiteListView.class);
-
                 Bundle bundle = new Bundle();
-                bundle.putString("username", SiteCategoryView.this.getArguments().getString("username", ""));
-                bundle.putString("password", SiteCategoryView.this.getArguments().getString("password", ""));
                 bundle.putInt("position", position);
 
                 Fragment fragment = new SiteListView();
@@ -82,7 +72,6 @@ public class SiteCategoryView extends Fragment {
 
             }
         });
-
         return inflatedView;
     }
 }

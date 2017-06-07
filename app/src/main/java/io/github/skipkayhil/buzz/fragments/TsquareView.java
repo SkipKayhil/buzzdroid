@@ -13,11 +13,12 @@ import android.webkit.WebViewClient;
 
 import io.github.skipkayhil.buzz.LoginDialog;
 import io.github.skipkayhil.buzz.R;
+import io.github.skipkayhil.buzz.model.User;
 
 public class TsquareView extends Fragment {
 
-    private String username = "testusername";
-    private String password = "testpassword";
+    private String username = User.getInstance().getUsername();
+    private String password = User.getInstance().getUsername();
     private WebView webView;
 
     @Override
@@ -25,9 +26,6 @@ public class TsquareView extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View inflatedView = inflater.inflate(R.layout.fragment_buzzport_view, container, false);
-
-        username = getArguments().getString("username", "");
-        password = getArguments().getString("password", "");
 
         webView = (WebView) inflatedView.findViewById(R.id.webview);
         webView.setWebViewClient(new WebViewClient() {
@@ -52,6 +50,10 @@ public class TsquareView extends Fragment {
                         view.evaluateJavascript("document.getElementById('msg')", new ValueCallback<String>() {
                             @Override
                             public void onReceiveValue(String s) {
+                                if (!s.equals("null")) {
+                                    new LoginDialog().show(getActivity().getSupportFragmentManager(), "login");
+                                    // reloads the view if the details change
+                                }
                                 String script = String.format(
                                         "document.getElementById('username').value='%s';"
                                                 + "document.getElementById('password').value='%s';",
@@ -75,7 +77,7 @@ public class TsquareView extends Fragment {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-        // Load the Buzzport website after the WebView settings
+        // Load the Tsquare website after the WebView settings
         webView.loadUrl("https://t-square.gatech.edu/portal/pda/?force.login=yes");
 
         return inflatedView;

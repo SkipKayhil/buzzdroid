@@ -2,7 +2,6 @@ package io.github.skipkayhil.buzz.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -155,7 +154,6 @@ public class SiteListView extends Fragment {
         final SiteAdapter adapter = new SiteAdapter(getActivity(), siteList);
         listView.setAdapter(adapter);
 
-        // Android isn't letting me use a lambda here for some reason.
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -167,8 +165,6 @@ public class SiteListView extends Fragment {
                 }
                 Bundle bundle = new Bundle();
                 bundle.putString("url", url);
-                bundle.putString("username", getArguments().getString("username", ""));
-                bundle.putString("password", getArguments().getString("password", ""));
 
                 BuzzWebView buzzWebView = new BuzzWebView();
                 buzzWebView.setArguments(bundle);
