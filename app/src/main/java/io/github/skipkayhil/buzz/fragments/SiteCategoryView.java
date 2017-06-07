@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.Arrays;
@@ -63,20 +64,23 @@ public class SiteCategoryView extends Fragment {
         // ArrayAdapter<Site> contentsAdapter = );
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener((parent, view, position, id) -> {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //            Intent intent = new Intent(getActivity(), SiteListView.class);
 
-            Bundle bundle = new Bundle();
-            bundle.putString("username", getArguments().getString("username", ""));
-            bundle.putString("password", getArguments().getString("password", ""));
-            bundle.putInt("position", position);
+                Bundle bundle = new Bundle();
+                bundle.putString("username", SiteCategoryView.this.getArguments().getString("username", ""));
+                bundle.putString("password", SiteCategoryView.this.getArguments().getString("password", ""));
+                bundle.putInt("position", position);
 
-            Fragment fragment = new SiteListView();
-            fragment.setArguments(bundle);
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, fragment, "currentView")
-                    .addToBackStack(null).commit();
+                Fragment fragment = new SiteListView();
+                fragment.setArguments(bundle);
+                SiteCategoryView.this.getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, fragment, "currentView")
+                        .addToBackStack(null).commit();
 
+            }
         });
 
         return inflatedView;

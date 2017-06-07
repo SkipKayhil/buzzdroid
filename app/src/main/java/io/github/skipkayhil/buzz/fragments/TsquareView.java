@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -17,6 +18,7 @@ public class TsquareView extends Fragment {
 
     private String username = "testusername";
     private String password = "testpassword";
+    private WebView webView;
 
     @Override
     @SuppressLint("SetJavaScriptEnabled")
@@ -27,7 +29,7 @@ public class TsquareView extends Fragment {
         username = getArguments().getString("username", "");
         password = getArguments().getString("password", "");
 
-        WebView webView = (WebView) inflatedView.findViewById(R.id.webview);
+        webView = (WebView) inflatedView.findViewById(R.id.webview);
         webView.setWebViewClient(new WebViewClient() {
             // Override this method that blocks urls from redirecting
             @Override
@@ -47,17 +49,20 @@ public class TsquareView extends Fragment {
                         new LoginDialog().show(getActivity().getSupportFragmentManager(), "login");
                     } else {
                         // If saved, check to see if the page contains the error message
-                        view.evaluateJavascript("document.getElementById('msg')", (String s) -> {
-                            String script = String.format(
-                                    "document.getElementById('username').value='%s';"
-                                            + "document.getElementById('password').value='%s';",
-                                    username,
-                                    password);
+                        view.evaluateJavascript("document.getElementById('msg')", new ValueCallback<String>() {
+                            @Override
+                            public void onReceiveValue(String s) {
+                                String script = String.format(
+                                        "document.getElementById('username').value='%s';"
+                                                + "document.getElementById('password').value='%s';",
+                                        username,
+                                        password);
 
-                            script = s.equals("null")
-                                    ? script + "document.getElementById('fm1').submit.click()"
-                                    : script;
-                            view.evaluateJavascript(script, null);
+                                script = s.equals("null")
+                                        ? script + "document.getElementById('fm1').submit.click()"
+                                        : script;
+                                view.evaluateJavascript(script, null);
+                            }
                         });
                     }
                 } else {
@@ -74,5 +79,9 @@ public class TsquareView extends Fragment {
         webView.loadUrl("https://t-square.gatech.edu/portal/pda/?force.login=yes");
 
         return inflatedView;
+    }
+
+    public WebView getWebView() {
+        return webView;
     }
 }

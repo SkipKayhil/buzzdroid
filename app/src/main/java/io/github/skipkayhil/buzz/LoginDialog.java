@@ -37,19 +37,26 @@ public class LoginDialog extends DialogFragment {
 
         builder.setTitle("Save GT Login Info?")
                 .setView(view)
-                .setPositiveButton(R.string.saveLogin, (DialogInterface dialog, int which) -> {
+                .setPositiveButton(R.string.saveLogin, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
                         EditText usernameInput = (EditText) view.findViewById(R.id.usernameInput);
                         EditText passwordInput = (EditText) view.findViewById(R.id.passwordInput);
 
-                        SharedPreferences storage = getActivity()
+                        SharedPreferences storage = LoginDialog.this.getActivity()
                                 .getSharedPreferences("LOGIN_INFO", 0);
                         storage.edit()
                                 .putString("username", usernameInput.getText().toString())
                                 .putString("password", passwordInput.getText().toString())
                                 .apply();
-                        ((MainActivity) getActivity()).refreshView();
+                        ((MainActivity) LoginDialog.this.getActivity()).refreshView();
+                    }
                 })
-                .setNegativeButton(R.string.cancelLogin, (DialogInterface dialog, int which) -> {});
+                .setNegativeButton(R.string.cancelLogin, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
         return builder.create();
     }
 

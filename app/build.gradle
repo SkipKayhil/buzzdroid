@@ -23,7 +23,7 @@ android {
         versionName "0.1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         jackOptions {
-            enabled true
+            enabled false
         }
         signingConfig signingConfigs.config
     }
@@ -38,8 +38,8 @@ android {
         }
     }
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        targetCompatibility 1.7
+        sourceCompatibility 1.7
     }
     productFlavors {
     }

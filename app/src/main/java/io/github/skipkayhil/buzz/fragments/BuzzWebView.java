@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.ValueCallback;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -50,17 +51,20 @@ public class BuzzWebView extends Fragment {
                         new LoginDialog().show(getActivity().getSupportFragmentManager(), "login");
                     } else {
                         // If saved, check to see if the page contains the error message
-                        view.evaluateJavascript("document.getElementById('msg')", (String s) -> {
-                            String script = String.format(
-                                    "document.getElementById('username').value='%s';"
-                                            + "document.getElementById('password').value='%s';",
-                                    username,
-                                    password);
+                        view.evaluateJavascript("document.getElementById('msg')", new ValueCallback<String>() {
+                            @Override
+                            public void onReceiveValue(String s) {
+                                String script = String.format(
+                                        "document.getElementById('username').value='%s';"
+                                                + "document.getElementById('password').value='%s';",
+                                        username,
+                                        password);
 
-                            script = s.equals("null")
-                                    ? script + "document.getElementById('fm1').submit.click()"
-                                    : script;
-                            view.evaluateJavascript(script, null);
+                                script = s.equals("null")
+                                        ? script + "document.getElementById('fm1').submit.click()"
+                                        : script;
+                                view.evaluateJavascript(script, null);
+                            }
                         });
                     }
                 } else {

@@ -152,7 +152,7 @@ public class SiteListView extends Fragment {
                 break;
         }
 
-        SiteAdapter adapter = new SiteAdapter(getActivity(), siteList);
+        final SiteAdapter adapter = new SiteAdapter(getActivity(), siteList);
         listView.setAdapter(adapter);
 
         // Android isn't letting me use a lambda here for some reason.

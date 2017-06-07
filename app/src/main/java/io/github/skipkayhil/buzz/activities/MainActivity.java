@@ -2,6 +2,7 @@ package io.github.skipkayhil.buzz.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         bundle.putString("username", username);
         bundle.putString("password", password);
 
-        Fragment newView;
+        Fragment newView = new TsquareView();
         switch(currentView) {
             case TSQUARE:
                 newView = new TsquareView();
@@ -69,8 +70,6 @@ public class MainActivity extends AppCompatActivity {
                 newView = new BusesView();
                 toolbar.setTitle("Places");
                 break;
-            default:
-                newView = new TsquareView();
         }
         newView.setArguments(bundle);
 
@@ -136,25 +135,38 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(drawerToggle);
 
         navigationView.getHeaderView(0).findViewById(R.id.drawerEditLogin)
-                .setOnClickListener(v -> showLoginDialog());
-        navigationView.setNavigationItemSelectedListener(item -> {
-            switch(item.getItemId()) {
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showLoginDialog();
+                    }
+                });
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                ViewType newView = ViewType.TSQUARE;
+                switch(item.getItemId()) {
                 case R.id.navTsquare:
-                    currentView = ViewType.TSQUARE;
+                    newView = ViewType.TSQUARE;
                     break;
                 case R.id.navSites:
-                    currentView = ViewType.SITES;
+                    newView = ViewType.SITES;
                     break;
                 case R.id.navBuses:
-                    currentView = ViewType.BUSES;
+                    newView = ViewType.BUSES;
                     break;
                 case R.id.navPlaces:
-                    currentView = ViewType.PLACES;
+                    newView = ViewType.PLACES;
                     break;
+                }
+                if (!newView.equals(currentView)) {
+                    currentView = newView;
+                    refreshView();
+                }
+                drawerLayout.closeDrawers();
+                return true;
             }
-            refreshView();
-            drawerLayout.closeDrawers();
-            return true;
         });
 
         // drawerList.setAdapter(new ArrayAdapter<String>(this,
@@ -233,10 +245,26 @@ public class MainActivity extends AppCompatActivity {
 //    }
     @Override
     public void onBackPressed() {
-        if(getSupportFragmentManager().findFragmentById(R.id.fragment_container) instanceof SiteListView) {
-            toolbar.setTitle("Sites");
-            toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
+        Fragment currentFrag = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+        if (currentFrag instanceof TsquareView) {
+            TsquareView view = (TsquareView) currentFrag;
+            if (view.getWebView().canGoBack()) {
+                view.getWebView().goBack();
+            } else {
+                super.onBackPressed();
+            }
+        } else {
+            if (currentFrag instanceof SiteListView) {
+                // If on a sub list of sites, set the toolbar back to Sites
+                toolbar.setTitle("Sites");
+                toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
+            } else {
+                toolbar.setTitle("T-Square");
+                currentView = ViewType.TSQUARE;
+                refreshView();
+            }
+            super.onBackPressed();
         }
-        super.onBackPressed();
     }
 }
