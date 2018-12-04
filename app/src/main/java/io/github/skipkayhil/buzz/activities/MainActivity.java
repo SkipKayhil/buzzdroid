@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,10 +13,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import io.github.skipkayhil.buzz.fragments.BusesView;
-import io.github.skipkayhil.buzz.fragments.BuzzWebView;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
+
 import io.github.skipkayhil.buzz.LoginDialog;
 import io.github.skipkayhil.buzz.R;
+import io.github.skipkayhil.buzz.fragments.BusesView;
+import io.github.skipkayhil.buzz.fragments.BuzzWebView;
+import io.github.skipkayhil.buzz.fragments.OldTsquareView;
 import io.github.skipkayhil.buzz.fragments.SiteCategoryView;
 import io.github.skipkayhil.buzz.fragments.SiteListView;
 import io.github.skipkayhil.buzz.fragments.TsquareView;
@@ -48,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         user.setUsername(storage.getString("username", ""));
         user.setPassword(storage.getString("password", ""));
 
-        Fragment newView = new TsquareView();
+        Fragment newView = new OldTsquareView();
         switch(currentView) {
             case TSQUARE:
                 newView = new TsquareView();
@@ -155,6 +159,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        CookieManager cookieManager = new CookieManager();
+        cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+        CookieHandler.setDefault(cookieManager);
+
         // drawerList.setAdapter(new ArrayAdapter<String>(this,
         //        R.layout.drawer_list_item, listItems));
         // drawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -233,13 +241,20 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         Fragment currentFrag = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
-        if (currentFrag instanceof TsquareView) {
-            TsquareView view = (TsquareView) currentFrag;
+        if (currentFrag instanceof OldTsquareView) {
+            OldTsquareView view = (OldTsquareView) currentFrag;
             if (view.getWebView().canGoBack()) {
                 view.getWebView().goBack();
             } else {
                 super.onBackPressed();
             }
+        } else if (currentFrag instanceof BuzzWebView) {
+//            BuzzWebView view = (BuzzWebView) currentFrag;
+//            if (view.getWebView().canGoBack()) {
+//                view.getWebView().goBack();
+//            } else {
+                super.onBackPressed();
+//            }
         } else {
             if (currentFrag instanceof SiteListView) {
                 // If on a sub list of sites, set the toolbar back to Sites

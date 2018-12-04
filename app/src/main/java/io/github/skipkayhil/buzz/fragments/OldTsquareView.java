@@ -16,12 +16,11 @@ import io.github.skipkayhil.buzz.LoginDialog;
 import io.github.skipkayhil.buzz.R;
 import io.github.skipkayhil.buzz.model.User;
 
-public class BuzzWebView extends Fragment {
+public class OldTsquareView extends Fragment {
 
-    private WebView webView;
     private String username = User.getInstance().getUsername();
     private String password = User.getInstance().getPassword();
-    private String url;
+    private WebView webView;
 
     @Override
     @SuppressLint("SetJavaScriptEnabled")
@@ -29,13 +28,12 @@ public class BuzzWebView extends Fragment {
                              Bundle savedInstanceState) {
         View inflatedView = inflater.inflate(R.layout.fragment_buzzport_view, container, false);
 
-        url = getArguments().getString("url", "http://gatech.edu");
-
         webView = (WebView) inflatedView.findViewById(R.id.webview);
         webView.setWebViewClient(new WebViewClient() {
             // Override this method that blocks urls from redirecting
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+
                 return false;
             }
 
@@ -54,6 +52,10 @@ public class BuzzWebView extends Fragment {
                         view.evaluateJavascript("document.getElementById('msg')", new ValueCallback<String>() {
                             @Override
                             public void onReceiveValue(String s) {
+                                if (!s.equals("null")) {
+                                    new LoginDialog().show(getActivity().getSupportFragmentManager(), "login");
+                                    // reloads the view if the details change
+                                }
                                 String script = String.format(
                                         "document.getElementById('username').value='%s';"
                                                 + "document.getElementById('password').value='%s';",
@@ -68,8 +70,8 @@ public class BuzzWebView extends Fragment {
                         });
                     }
                 } else {
-                    view.getSettings().setLoadWithOverviewMode(true);
-                    view.getSettings().setUseWideViewPort(true);
+//                    view.getSettings().setLoadWithOverviewMode(true);
+//                    view.getSettings().setUseWideViewPort(true);
                 }
             }
         });
@@ -77,8 +79,9 @@ public class BuzzWebView extends Fragment {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-        // Load the Buzzport website after the WebView settings
-        webView.loadUrl(url);
+        // Load the Tsquare website after the WebView settings
+        webView.loadUrl("https://t-square.gatech.edu/portal/pda/?force.login=yes");
+//        webView.loadUrl("https://t-square.gatech.edu/portal/pda");
 
         return inflatedView;
     }
